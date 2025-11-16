@@ -1,84 +1,143 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function ChatbotPage() {
-  const [msg, setMsg] = useState("");
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
-
   useEffect(() => {
-    // Carrega o script do n8n
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.js";
-    script.async = true;
+    script.type = "module";
+    script.innerHTML = `
+      import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    script.onload = () => {
-      const chat = window.n8nChat.init({
-        webhookUrl: "https://seu-workflow-url",
-        theme: "light",
-        showHeader: false,
+      createChat({
+        webhookUrl: 'https://automate.xlab.app.br/webhook/514758d6-6e56-439e-ac00-edac0c530cb0/chat',
+        target: '#n8n-chat',
+        defaultLanguage: 'pt-BR',
+        loadPreviousSession: false,
+
+        initialMessages: [
+          'Olá! Que bom ter você aqui no Reinventa+! 😊\\n\\Como posso ajudar você hoje? Está buscando cursos, dicas para currículo, vagas de emprego ou algo mais?'
+        ],
+
+        i18n: {
+          "pt-BR": {
+            title: "",
+            subtitle: "",
+            footer: "",
+            getStarted: "",
+            inputPlaceholder: "Digite sua mensagem..."
+          }
+        }
       });
-
-      // Expõe globalmente
-      window.n8nChat = chat;
-
-      // Listener para receber msgs do n8n
-      window.n8nChat.onMessage?.((data: any) => {
-        setMessages((prev) => [...prev, { sender: "bot", text: data.text }]);
-      });
-    };
-
+    `;
     document.body.appendChild(script);
+
+    const style = document.createElement("style");
+    style.innerHTML = `
+      /* remove ícone flutuante */
+      #n8n-chat .chat-window-toggle { display: none !important; }
+
+      /* força o widget a aparecer */
+      #n8n-chat .chat-window-wrapper {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 100% !important;
+        height: 100% !important;
+        position: relative !important;
+        padding-top: 500px !important;
+      }
+
+      /* ESTA É A LINHA QUE FAZ APARECER */
+      #n8n-chat .chat-window {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        height: 100% !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+
+      #n8n-chat {
+        width: 100% !important;
+        height: 100vh !important;
+      }
+
+      #n8n-chat .chat-messages {
+        height: calc(100% - 80px) !important;
+        background: #f8fafc !important;
+        padding: 20px !important;
+        overflow-y: auto !important;
+      }
+
+     #n8n-chat .chat-message:first-child {
+     background: #f1f0f5 !important;
+    color: #111 !important;
+    border-radius: 18px 18px 18px 4px !important;
+    padding: 14px 18px !important;
+    max-width: 75% !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    /* --- Estilo iMessage para a primeira resposta da IA --- */
+    #n8n-chat .chat-message:nth-child(2) {
+     background: #f1f0f5 !important;
+    color: #111 !important;
+      border-radius: 18px 18px 18px 4px !important;
+    padding: 14px 18px !important;
+     max-width: 75% !important;
+    margin-bottom: 14px !important;
+     box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    /* Mensagens da AI (lado esquerdo) */
+    #n8n-chat .chat-message-from-bot {
+    background: #f1f0f5 !important;
+    color: #111 !important;
+    border-radius: 18px 18px 18px 4px !important; /* bolha esquerda */
+    padding: 14px 18px !important;
+    max-width: 75% !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+    }
+
+    /* Mensagem do usuário (lado direito) */
+    #n8n-chat .chat-message-from-user:not(.chat-message-transparent) {
+    background: #0a84ff !important; /* azul iMessage */
+    color: white !important;
+    border-radius: 18px 18px 4px 18px !important; /* bolha direita */
+    padding: 14px 18px !important;
+    max-width: 75% !important;
+    margin-left: auto !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18) !important;
+    }
+
+
+      #n8n-chat .chat-inputs {
+        border-top: 1px solid #ddd !important;
+        padding: 12px !important;
+        background: #fff !important;
+      }
+
+      #n8n-chat textarea {
+        background: #f3f4f6 !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      if (document.body.contains(script)) document.body.removeChild(script);
+      if (document.head.contains(style)) document.head.removeChild(style);
+    };
   }, []);
 
-  function enviarMsg() {
-    if (!msg.trim()) return;
-
-    // Adiciona a mensagem do usuário na tela
-    setMessages((prev) => [...prev, { sender: "user", text: msg }]);
-
-    // Envia para o n8n
-    window.n8nChat?.sendMessage(msg);
-
-    setMsg("");
-  }
-
   return (
-    <div className="w-full h-screen bg-gray-100 flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold text-purple-600 mb-4">Chat com o n8n</h1>
-
-      {/* Área de mensagens */}
-      <div className="w-full max-w-xl flex-1 bg-white shadow rounded-xl p-4 overflow-y-auto">
-        {messages.map((m, index) => (
-          <div
-            key={index}
-            className={`my-2 p-3 rounded-xl max-w-[80%] ${
-              m.sender === "user"
-                ? "bg-purple-500 text-white ml-auto"
-                : "bg-gray-200 text-gray-800 mr-auto"
-            }`}
-          >
-            {m.text}
-          </div>
-        ))}
-      </div>
-
-      {/* Caixa de envio */}
-      <div className="w-full max-w-xl flex gap-2 mt-4">
-        <input
-          value={msg}
-          onChange={(e) => setMsg(e.target.value)}
-          className="flex-1 p-3 border border-gray-300 rounded-xl focus:outline-purple-500"
-          placeholder="Digite sua mensagem..."
-        />
-
-        <button
-          onClick={enviarMsg}
-          className="bg-purple-600 text-white px-4 rounded-xl hover:bg-purple-700 transition"
-        >
-          Enviar
-        </button>
-      </div>
+    <div className="w-full h-screen">
+      <div id="n8n-chat" className="w-full h-full" />
     </div>
   );
 }
