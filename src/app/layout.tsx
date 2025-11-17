@@ -1,7 +1,7 @@
 // src/app/layout.tsx
 import "./globals.css";
 import Header from "../components/Header";
-
+import FloatingButton from "@/components/FloatingButton";
 export const metadata = {
   title: "Reinventa+",
 };
@@ -12,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased">
         <Header />
         {children}
+        <FloatingButton />
       </body>
     </html>
   );
