@@ -1,5 +1,7 @@
 // src/app/page.tsx  (server component — sem "use client")
 import JobsClient from "../components/JobsClient";
+import Hero from "../components/Hero";
+import Header from "../components/Header";
 
 export const metadata = {
   title: "Reinventa+ — Vagas",
@@ -100,9 +102,13 @@ const jobsData = [
 export default function Page() {
   return (
     <main className="min-h-screen bg-muted/20 text-foreground">
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      {/* Hero */}
+      <Hero />
+
+      {/* Conteúdo central — lista de vagas */}
+      <section className="max-w-6xl mx-auto px-4 py-8">
         <JobsClient initialJobs={jobsData} />
-      </div>
+      </section>
     </main>
   );
 }
