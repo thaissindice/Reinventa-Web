@@ -4,7 +4,13 @@ import Header from "../components/Header";
 
 export const metadata = {
   title: "Reinventa+",
+  description: "Conectando talentos ao futuro do trabalho.",
+  icons: {
+  icon: "/favicon.ico",
+},
+
 };
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

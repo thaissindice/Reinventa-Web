@@ -6,6 +6,8 @@ import { Metadata } from "next";
 import NewJobForm from "./NewJobForm";
 import ClientNewJobPage from "./ClientNewJobPage";
 
+
+
 export const metadata: Metadata = {
   title: "Post a new job",
 };

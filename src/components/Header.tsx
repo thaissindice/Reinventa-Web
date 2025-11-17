@@ -17,7 +17,6 @@ export default function Header() {
     } catch {
       setUser(null);
     }
-    // reexecuta quando a rota muda (útil para capturar login/logout)
   }, [pathname]);
 
   const handleLogout = () => {
@@ -27,38 +26,52 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-gradient-to-b from-indigo-50/80 to-white/90 border-b border-indigo-100 shadow-sm transition-all duration-300">
+      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* Logo (clique volta pra home) */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-slate-200 rounded flex items-center justify-center">
-            💻
-          </div>
-          <div className="font-semibold text-lg">Reinventa+</div>
+          <img
+            src="/assets/logos/novologo.png"
+            alt="Logo Reinventa+"
+            className="h-16 md:h-20 w-auto hover:scale-105 transition-transform duration-200"
+          />
         </Link>
 
-        <div>
+        {/* Ações */}
+        <div className="flex items-center gap-3">
           {user ? (
             <>
-              {user.role === "mentor" && (
-                <Link
-                  href="/post-job"
-                  className="bg-purple-600 text-white px-4 py-2 rounded mr-2"
-                >
-                  Postar vaga
-                </Link>
-              )}
-              <Link href="/dashboard" className="mx-2">
+              {/* Exemplo: checagem robusta para role */}
+{(user?.role || "").toString().toLowerCase() === "mentor" && (
+  <Link
+    href="/post-job"
+    className="bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition-all duration-200 mr-3"
+  >
+    Postar vaga
+  </Link>
+)}
+
+
+
+              <Link
+                href="/dashboard"
+                className="text-slate-700 font-medium hover:text-indigo-700 transition-colors duration-200"
+              >
                 Dashboard
               </Link>
+
               <button
                 onClick={handleLogout}
-                className="bg-slate-900 text-white px-4 py-2 rounded"
+                className="bg-slate-900 text-white px-4 py-2 rounded-md font-medium hover:bg-slate-800 transition-all duration-200"
               >
                 Sair
               </button>
             </>
           ) : (
-            <Link href="/login" className="bg-slate-900 text-white px-4 py-2 rounded">
+            <Link
+              href="/login"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-md font-medium hover:bg-indigo-700 transition-all duration-200"
+            >
               Entrar
             </Link>
           )}
