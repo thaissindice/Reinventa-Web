@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Metadata } from "next";
@@ -8,9 +6,9 @@ import ClientNewJobPage from "./ClientNewJobPage";
 
 
 
-//export const metadata: Metadata = {
- // title: "Post a new job",
-//};
+export const metadata: Metadata = {
+  title: "Post a new job",
+};
 
 export default function Page() {
   const router = useRouter();
