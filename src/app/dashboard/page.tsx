@@ -132,7 +132,9 @@ export default function Page() {
             <p className="text-muted-foreground mt-1">Explore vagas, salve oportunidades e se capacite.</p>
           </div>
           <div>
-            <button onClick={() => router.push("/courses")} className="bg-indigo-600 text-white px-4 py-2 rounded-md">Ver cursos</button>
+            <button onClick={() => router.push("/mentorias")} className="bg-indigo-600 text-white px-4 py-2 rounded-md">
+  Ver cursos
+</button>
           </div>
         </header>
 
@@ -217,8 +219,10 @@ export default function Page() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button onClick={() => router.push("/post-job")} className="bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition">Postar vaga</button>
-          <a href="/courses" className="text-sm text-muted-foreground underline">Capacitação (vídeos)</a>
+          
+          <a href="/mentorias" className="text-sm text-muted-foreground underline">
+  Capacitação (vídeos)
+</a>
         </div>
       </div>
 

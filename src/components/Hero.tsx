@@ -2,8 +2,26 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import Link from "next/link";
 
+/**
+ * Função de scroll suave para a seção de vagas.
+ */
+function scrollToVagas() {
+  const el = document.getElementById("vagas");
+  if (!el) return;
+
+  // Detecta o header sticky (caso seu header tenha outra classe, ajuste aqui)
+  const header = document.querySelector("header");
+  const headerHeight = header ? (header as HTMLElement).offsetHeight : 80;
+
+  const targetY =
+    el.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+
+  window.scrollTo({
+    top: targetY,
+    behavior: "smooth",
+  });
+}
 
 export default function Hero() {
   return (
@@ -13,6 +31,7 @@ export default function Hero() {
     >
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center bg-white/80 backdrop-blur-md border border-indigo-100 rounded-3xl p-8 md:p-10 shadow-xl transition">
+          
           {/* Texto */}
           <div className="md:col-span-7 lg:col-span-8 space-y-4">
             <h1
@@ -33,16 +52,18 @@ export default function Hero() {
               necessidades reais do mercado.
             </p>
 
+            {/* BOTÃO ATUALIZADO */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <a
-                href="#vagas"
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToVagas();
+                }}
                 aria-label="Ir para a lista de vagas"
                 className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 hover:scale-[1.03] active:scale-95 shadow-md transition-all duration-200 text-center"
               >
                 🌱 Explorar vagas
-              </a>
-
-              
+              </button>
             </div>
 
             <p className="text-sm text-slate-500 max-w-lg">

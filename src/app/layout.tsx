@@ -2,6 +2,7 @@
 import "./globals.css";
 import Header from "../components/Header";
 import FloatingButton from "@/components/FloatingButton";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Reinventa+",
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         {children}
         <FloatingButton />
+        <Footer />
       </body>
     </html>
   );

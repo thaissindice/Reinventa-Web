@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import prisma from "@/lib/prisma";
+import { prisma } from "../../../lib/prisma"; // 3 níveis acima: [slug] → jobs → app → src
+import ApplySection from "@/components/ApplySection";
 
 type PageProps = { params: { slug: string } };
 
@@ -51,7 +52,16 @@ export default async function JobDetailPage({ params }: PageProps) {
       )}
 
       <section className="space-y-2">
-        <h2 className="text-xl font-semibold">Como se candidatar</h2>
+  <h2 className="text-xl font-semibold">Como se candidatar</h2>
+
+  <ApplySection
+    applicationUrl={job.applicationUrl ?? undefined}
+    applicationEmail={job.applicationEmail ?? undefined}
+    jobId={params.slug}      // use params.slug (garante valor)
+    jobTitle={job.title}
+  />
+</section>
+
         {job.applicationUrl ? (
           <a
             href={job.applicationUrl}
@@ -70,12 +80,13 @@ export default async function JobDetailPage({ params }: PageProps) {
           </a>
         ) : (
           <button
-            onClick={() => alert("Aplicação simulada!")}
+            onClick={() => alert("Você se candidatou a esta vaga, boa sorte!")}
             className="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
           >
             Aplicar
           </button>
         )}
+      
       </section>
     </main>
   );
