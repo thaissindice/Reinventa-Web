@@ -264,7 +264,8 @@ export default function Page() {
 
           {error && <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md">Erro ao carregar vagas: {error}</div>}
 
-          {!loadingJobs && jobs.length === 0 && <div className="bg-card border border-border rounded-2xl p-6 shadow-sm"><p className="text-muted-foreground">Você não publicou nenhuma vaga ainda. Clique em "Postar vaga" para começar.</p></div>}
+          {!loadingJobs && jobs.length === 0 && <div className="bg-card border border-border rounded-2xl p-6 shadow-sm"><p className="text-muted-foreground">Você não publicou nenhuma vaga ainda. Clique em “Postar vaga” para começar.
+</p></div>}
 
           <div className="space-y-4">
             {jobs.map((job) => (

@@ -25,17 +25,18 @@ export default async function JobResults({
     .filter((word) => word.length > 0)
     .join(" & ");
 
-  const searchFilter: Prisma.JobWhereInput = searchString
-    ? {
-        OR: [
-          { title: { search: searchString } },
-          { companyName: { search: searchString } },
-          { type: { search: searchString } },
-          { locationType: { search: searchString } },
-          { location: { search: searchString } },
-        ],
-      }
-    : {};
+const searchFilter = (searchString
+  ? {
+      OR: [
+        { title: { contains: searchString, mode: "insensitive" } },
+        { companyName: { contains: searchString, mode: "insensitive" } },
+        { type: { contains: searchString, mode: "insensitive" } },
+        { locationType: { contains: searchString, mode: "insensitive" } },
+        { location: { contains: searchString, mode: "insensitive" } },
+      ],
+    }
+  : {}) as Prisma.JobWhereInput;
+
 
   const where: Prisma.JobWhereInput = {
     AND: [

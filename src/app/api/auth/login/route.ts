@@ -1,13 +1,7 @@
 // src/app/api/auth/login/route.ts
+/* eslint-disable */
 import { NextResponse } from "next/server";
 
-/**
- * Quick-auth route:
- * - Se houver Prisma exportado em /lib/prisma (DATABASE_URL configurada), tenta usar.
- * - Senão, usa um array de "demoUsers" (fallback) para testes rápidos.
- *
- * WARNING: demo fallback usa base64 (btoa) como "hash" — apenas para desenvolvimento.
- */
 
 function demoHash(pw: string) {
   try { return typeof window === "undefined" ? Buffer.from(pw).toString("base64") : btoa(pw); }
@@ -21,11 +15,6 @@ const demoUsers = [
 
 let prisma: any = null;
 try {
-  // tenta importar prisma se existir (não falha se arquivo não existir)
-  // ajuste o caminho se o seu prisma export for diferente
-  // (você mostrou `export default prisma;` e também `export const prisma = ...` em lugares diferentes,
-  //  então testamos ambos.)
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const p = require("../../../../lib/prisma");
   prisma = p?.default ?? p?.prisma ?? null;
 } catch (e) {

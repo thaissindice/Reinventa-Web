@@ -8,9 +8,9 @@ import ClientNewJobPage from "./ClientNewJobPage";
 
 
 
-export const metadata: Metadata = {
-  title: "Post a new job",
-};
+//export const metadata: Metadata = {
+ // title: "Post a new job",
+//};
 
 export default function Page() {
   const router = useRouter();

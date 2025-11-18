@@ -114,7 +114,7 @@ export default function JobPage({
               </p>
               <p className="flex items-center gap-2">
                 <Banknote size={16} className="shrink-0" />
-                {formatMoney(salary)}
+                {formatMoney(salary ?? 0)}
               </p>
             </div>
           </div>
