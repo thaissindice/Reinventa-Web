@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import NewJobForm from "./NewJobForm";
@@ -9,10 +10,21 @@ export default function ClientNewJobPage() {
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
-    if (!raw) router.push("/login");
-    else setReady(true);
+
+    if (!raw) {
+      router.push("/login");
+    } else {
+      setReady(true);
+    }
   }, [router]);
 
-  if (!ready) return <div className="p-6">Redirecionando…</div>;
+  if (!ready) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-600">
+        Redirecionando para login...
+      </div>
+    );
+  }
+
   return <NewJobForm />;
 }
