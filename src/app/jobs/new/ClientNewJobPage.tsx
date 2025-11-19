@@ -1,3 +1,4 @@
+// src/app/jobs/new/ClientNewJobPage.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,12 +10,17 @@ export default function ClientNewJobPage() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const raw = localStorage.getItem("user");
-
-    if (!raw) {
+    // protege contra SSR (no server localStorage não existe)
+    try {
+      const raw = localStorage.getItem("user");
+      if (!raw) {
+        router.push("/login");
+      } else {
+        setReady(true);
+      }
+    } catch (err) {
+      // se storage bloqueado, manda pro login por segurança
       router.push("/login");
-    } else {
-      setReady(true);
     }
   }, [router]);
 
